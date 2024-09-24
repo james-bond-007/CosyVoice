@@ -20,6 +20,7 @@ import torch
 import torchaudio
 import random
 import librosa
+import time
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
 from cosyvoice.cli.cosyvoice import CosyVoice
@@ -113,7 +114,7 @@ def generate_audio(tts_text, mode_checkbox_group, sft_dropdown, prompt_text, pro
             yield (target_sr, default_data)
         if instruct_text != '':
             gr.Info('您正在使用3s极速复刻模式，预训练音色/instruct文本会被忽略！')
-
+    start_time = time.time()
     if mode_checkbox_group == '预训练音色':
         logging.info('get sft inference request')
         set_all_random_seed(seed)
@@ -136,7 +137,9 @@ def generate_audio(tts_text, mode_checkbox_group, sft_dropdown, prompt_text, pro
         set_all_random_seed(seed)
         for i in cosyvoice.inference_instruct(tts_text, sft_dropdown, instruct_text, stream=stream, speed=speed):
             yield (target_sr, i['tts_speech'].numpy().flatten())
-
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"代码执行时间：{execution_time} 秒")
 
 def main():
     with gr.Blocks() as demo:
