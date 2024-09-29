@@ -69,7 +69,7 @@ def main():
 
     demo.queue(max_size=4, default_concurrency_limit=2)
     # demo.launch(server_name=gt_host_ip(), server_port=5000)
-    demo.launch(server_name="0.0.0.0", server_port=5000)
+    demo.launch(server_name="0.0.0.0", server_port=5000, share=True)
 
 if __name__ == '__main__':
     main()
