@@ -27,9 +27,12 @@ def preset():
         for output in model.inference_sft(_synthetic_input_textbox, _sound_radio):
             audio_tensors.append(output['tts_speech'])
             yield (target_sr, output['tts_speech'].numpy().flatten())
+        print("合成音频数组shape：{}".format(audio_tensors.shape))
+        print("合成音频：{} 秒".format(audio_tensors))
         # 将所有音频片段连接成一个单独的Tensor
-        # print("合成音频片段维度：{}".format(audio_tensors.shape))
         full_audio = torch.concat(audio_tensors, dim=1)
+        print("合成音频shape：{} ".format(full_audio.shape))
+        print("合成音频：{} ".format(full_audio))
 
 
         audio_data = postprocess(full_audio).numpy().flatten()
