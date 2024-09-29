@@ -28,7 +28,7 @@ def preset():
             audio_tensors.append(output['tts_speech'])
             yield (target_sr, output['tts_speech'].numpy().flatten())
         # 将所有音频片段连接成一个单独的Tensor
-        print("合成音频片段维度：{}".format(audio_tensors.shape))
+        # print("合成音频片段维度：{}".format(audio_tensors.shape))
         full_audio = torch.cat(audio_tensors, dim=1) if audio_tensors else torch.empty(0)
 
         audio_data = postprocess(full_audio).numpy().flatten()
