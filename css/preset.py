@@ -31,11 +31,12 @@ def preset():
         print("合成音频：{} ".format(audio_tensors))
         # 将所有音频片段连接成一个单独的Tensor
         full_audio = torch.concat(audio_tensors, dim=1)
-        print("合成音频shape：{} ".format(full_audio.shape))
+        # print("合成音频shape：{} ".format(full_audio.shape))
         print("合成音频：{} ".format(full_audio))
 
 
         audio_data = postprocess(full_audio).numpy().flatten()
+        print("audio_data:{}".format(audio_data))
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
         audio_data = add_watermark(audio_data)
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
