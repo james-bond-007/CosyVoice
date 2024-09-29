@@ -29,7 +29,8 @@ def preset():
             yield (target_sr, output['tts_speech'].numpy().flatten())
         # 将所有音频片段连接成一个单独的Tensor
         # print("合成音频片段维度：{}".format(audio_tensors.shape))
-        full_audio = torch.cat(audio_tensors, dim=1) if audio_tensors else torch.empty(0)
+        full_audio = torch.concat(audio_tensors, dim=1)
+
 
         audio_data = postprocess(full_audio).numpy().flatten()
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
