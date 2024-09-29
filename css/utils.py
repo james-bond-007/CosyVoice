@@ -110,7 +110,7 @@ def detect_voice(watermarked_audio, sr):
     return result
 
 def save_audio(path, audio_data):
-    # sf.write(path, audio_data, sr=target_sr)
+    sf.write(path, audio_data, sr=target_sr)
     # 将NumPy数组转换为PyTorch Tensor
-    audio_data_tensor = torch.from_numpy(audio_data).view(1,-1)
-    torchaudio.save(path, audio_data_tensor, sample_rate=target_sr)
+    # audio_data_tensor = torch.from_numpy(audio_data).view(1,-1)
+    # torchaudio.save(path, audio_data_tensor, sample_rate=target_sr)
