@@ -32,13 +32,27 @@ def custom():
         # model = cosyvoice_instruct
         prompt_speech_16k = postprocess(load_wav(_recorded_audio, prompt_sr))
         print("语言：{}".format(_language_radio))
+        audio_tensors = []
         if _language_radio == 'cross' or _prompt_input_textbox == '':
             model = cosyvoice
-            output = model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k)
+            # output = model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k)
+            for output in model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k):
+                audio_tensors.append(output['tts_speech'])
+                yield (target_sr, output['tts_speech'].numpy().flatten())
         else:
             model = cosyvoice_instruct
-            output = model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k)
-        audio_data = postprocess(output['tts_speech']).numpy().flatten()
+            # output = model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k)
+            for output in model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k):
+                audio_tensors.append(output['tts_speech'])
+                yield (target_sr, output['tts_speech'].numpy().flatten())
+        
+        # print("合成音频数组shape：{}".format(audio_tensors.shape))
+        print("合成音频：{} ".format(audio_tensors))
+        # 将所有音频片段连接成一个单独的Tensor
+        full_audio = torch.concat(audio_tensors, dim=1)
+        # print("合成音频shape：{} ".format(full_audio.shape))
+        print("合成音频：{} ".format(full_audio))
+        audio_data = postprocess(full_audio).numpy().flatten()
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
         audio_data = add_watermark(audio_data)
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
