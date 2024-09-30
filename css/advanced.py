@@ -21,8 +21,19 @@ def advanced():
             return (target_sr, default_data)
         set_all_random_seed(_seed)
         model = cosyvoice_instruct
-        output = model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox)
-        audio_data = postprocess(output['tts_speech']).numpy().flatten()
+        # output = model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox)
+        audio_tensors = []
+        for output in model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox):
+            audio_tensors.append(output['tts_speech'])
+            yield (target_sr, output['tts_speech'].numpy().flatten())
+        # print("合成音频数组shape：{}".format(audio_tensors.shape))
+        print("合成音频：{} ".format(audio_tensors))
+        # 将所有音频片段连接成一个单独的Tensor
+        full_audio = torch.concat(audio_tensors, dim=1)
+        # print("合成音频shape：{} ".format(full_audio.shape))
+        print("合成音频：{} ".format(full_audio))
+
+        audio_data = postprocess(full_audio).numpy().flatten()
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
         audio_data = add_watermark(audio_data)
         # print("检测结果：{}".format(detect_voice(audio_data, target_sr)))
