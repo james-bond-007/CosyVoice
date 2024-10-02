@@ -24,7 +24,7 @@ def preset():
             model = cosyvoice
         # model = cosyvoice
         audio_tensors = []
-        for output in model.inference_sft(_synthetic_input_textbox, _sound_radio, stream=True):
+        for output in model.inference_sft(_synthetic_input_textbox, _sound_radio):
             audio_tensors.append(output['tts_speech'])
             yield (target_sr, output['tts_speech'].numpy().flatten())
         # print("合成音频数组shape：{}".format(audio_tensors.shape))
