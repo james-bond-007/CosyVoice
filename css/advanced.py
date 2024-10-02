@@ -23,7 +23,7 @@ def advanced():
         model = cosyvoice_instruct
         # output = model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox)
         audio_tensors = []
-        for output in model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox, stream=True):
+        for output in model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox):
             audio_tensors.append(output['tts_speech'])
             yield (target_sr, output['tts_speech'].numpy().flatten())
         # print("合成音频数组shape：{}".format(audio_tensors.shape))
