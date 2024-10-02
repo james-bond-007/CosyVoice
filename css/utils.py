@@ -25,9 +25,9 @@ seal.eval()
 detector = AudioSeal.load_detector("audioseal_detector_16bits")
 
 from cosyvoice.cli.cosyvoice import CosyVoice
-cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M',load_jit=True, load_onnx=True)
-cosyvoice_sft = CosyVoice('pretrained_models/CosyVoice-300M-SFT',load_jit=True, load_onnx=True)
-cosyvoice_instruct = CosyVoice('pretrained_models/CosyVoice-300M-Instruct',load_jit=True, load_onnx=True)
+cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M')
+cosyvoice_sft = CosyVoice('pretrained_models/CosyVoice-300M-SFT')
+cosyvoice_instruct = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
 sft_spk = cosyvoice_sft.list_avaliable_spks()
 example_tts_text = ["我们走的每一步，都是我们策略的一部分；你看到的所有一切，包括我此刻与你交谈，所做的一切，所说的每一句话，都有深远的含义。",
                     "那位喜剧演员真有才，[laughter]一开口就让全场观众爆笑。",
