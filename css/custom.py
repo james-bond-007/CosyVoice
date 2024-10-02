@@ -36,13 +36,13 @@ def custom():
         if _language_radio == 'cross' or _prompt_input_textbox == '':
             model = cosyvoice
             # output = model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k)
-            for output in model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k):
+            for output in model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k, stream=True):
                 audio_tensors.append(output['tts_speech'])
                 yield (target_sr, output['tts_speech'].numpy().flatten())
         else:
             model = cosyvoice_instruct
             # output = model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k)
-            for output in model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k):
+            for output in model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k, stream=True):
                 audio_tensors.append(output['tts_speech'])
                 yield (target_sr, output['tts_speech'].numpy().flatten())
         
