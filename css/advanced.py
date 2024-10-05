@@ -20,7 +20,7 @@ def advanced():
             gr.Warning('合成文本为空，您是否忘记输入合成文本？')
             return (target_sr, default_data)
         set_all_random_seed(_seed)
-        model = cosyvoice_instruct
+        model = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
         # output = model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox)
         audio_tensors = []
         for output in model.inference_instruct(_synthetic_input_textbox, _sound_radio, _speech_status_textbox):
