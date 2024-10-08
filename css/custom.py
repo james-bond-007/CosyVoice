@@ -25,22 +25,22 @@ def custom():
             gr.Warning('合成文本为空，您是否忘记输入合成文本？')
             return (target_sr, default_data)
         set_all_random_seed(_seed)
-        # if use_instruct(_synthetic_input_textbox):
-        #     model = cosyvoice_instruct
-        # else:
-        #     model = cosyvoice_sft
+        if use_instruct(_synthetic_input_textbox):
+            model = cosyvoice_instruct
+        else:
+            model = cosyvoice_sft
         # model = cosyvoice_instruct
         prompt_speech_16k = postprocess(load_wav(_recorded_audio, prompt_sr))
         print("语言：{}".format(_language_radio))
         audio_tensors = []
         if _language_radio == 'cross' or _prompt_input_textbox == '':
-            model = CosyVoice('pretrained_models/CosyVoice-300M')
+            # model = CosyVoice('pretrained_models/CosyVoice-300M')
             # output = model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k)
             for output in model.inference_cross_lingual(_synthetic_input_textbox, prompt_speech_16k, stream=True, speed=1.0):
                 audio_tensors.append(output['tts_speech'])
                 yield (target_sr, output['tts_speech'].numpy().flatten())
         else:
-            model = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
+            # model = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
             # output = model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k)
             for output in model.inference_zero_shot(_synthetic_input_textbox, _prompt_input_textbox, prompt_speech_16k, stream=True, speed=1.0):
                 audio_tensors.append(output['tts_speech'])
