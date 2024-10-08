@@ -19,9 +19,9 @@ def preset():
             return (target_sr, default_data)
         set_all_random_seed(_seed)
         if use_instruct(_synthetic_input_textbox):
-            model = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
+            model = cosyvoice_instruct
         else:
-            model = CosyVoice('pretrained_models/CosyVoice-300M')
+            model = cosyvoice
         # model = cosyvoice
         audio_tensors = []
         for output in model.inference_sft(_synthetic_input_textbox, _sound_radio, stream=True, speed=1.0):
